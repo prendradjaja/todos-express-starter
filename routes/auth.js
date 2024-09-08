@@ -53,4 +53,9 @@ router.get('/login', function(req, res, next) {
 
 router.get('/login/federated/google', passport.authenticate('google'));
 
+router.get('/oauth2/redirect/google', passport.authenticate('google', {
+  successRedirect: '/',
+  failureRedirect: '/login'
+}));
+
 module.exports = router;
