@@ -45,6 +45,18 @@ passport.use(new GoogleStrategy({
   });
 }));
 
+passport.serializeUser(function(user, cb) {
+  process.nextTick(function() {
+    cb(null, { id: user.id, username: user.username, name: user.name });
+  });
+});
+
+passport.deserializeUser(function(user, cb) {
+  process.nextTick(function() {
+    return cb(null, user);
+  });
+});
+
 var router = express.Router();
 
 router.get('/login', function(req, res, next) {
