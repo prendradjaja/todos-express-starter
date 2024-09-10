@@ -8,7 +8,7 @@ var logger = require('morgan');
 var session = require('express-session');
 var passport = require('passport');
 
-var SQLiteStore = require('connect-sqlite3')(session);
+var PostgresStore = require('connect-pg-simple')(session);
 
 var indexRouter = require('./routes/index');
 var authRouter = require('./routes/auth');
@@ -30,7 +30,9 @@ app.use(session({
   secret: 'keyboard cat',
   resave: false,
   saveUninitialized: false,
-  store: new SQLiteStore({ db: 'sessions.db', dir: './var/db' })
+  store: new PostgresStore({
+    conString: 'postgres://localhost:5432/passport_example',
+  }),
 }));
 app.use(passport.authenticate('session'));
 
